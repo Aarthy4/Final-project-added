@@ -1,0 +1,32 @@
+app/src/main/java/com/example/emergencynetwork/util/AESHelper.kt
+package com.example.emergencynetwork.util
+
+import android.util.Base64
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
+
+object AESHelper {
+    // Demo key (Phase 1). Replace for production.
+    private const val KEY = "0123456789abcdef"
+    private const val IV = "abcdef9876543210"
+
+    fun encrypt(plain: String): String {
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+        val keySpec = SecretKeySpec(KEY.toByteArray(), "AES")
+        val ivSpec = IvParameterSpec(IV.toByteArray())
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
+        val encrypted = cipher.doFinal(plain.toByteArray(Charsets.UTF_8))
+        return Base64.encodeToString(encrypted, Base64.DEFAULT)
+    }
+
+    fun decrypt(base64: String): String {
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+        val keySpec = SecretKeySpec(KEY.toByteArray(), "AES")
+        val ivSpec = IvParameterSpec(IV.toByteArray())
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
+        val decoded = Base64.decode(base64, Base64.DEFAULT)
+        val plain = cipher.doFinal(decoded)
+        return String(plain, Charsets.UTF_8)
+    }
+}

@@ -1,0 +1,3 @@
+settings.gradle
+rootProject.name = 'OfflineMeshPhase1'
+include ':app'

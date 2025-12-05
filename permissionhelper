@@ -1,0 +1,23 @@
+app/src/main/java/com/example/emergencynetwork/util/PermissionHelper.kt
+package com.example.emergencynetwork.util
+
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+
+object PermissionHelper {
+    val needed = arrayOf(
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN,
+        Manifest.permission.BLUETOOTH_CONNECT,
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    fun allGranted(activity: Activity): Boolean {
+        return needed.all {
+            ContextCompat.checkSelfPermission(activity, it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+}
